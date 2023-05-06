@@ -42,7 +42,7 @@ import org.springframework.lang.Nullable;
 public interface DocumentOperations {
 
 	/**
-	 * Saves an entity to the index specified in the entity's Document annotation
+	 * 保存单个实体到该实体上标注的文档注解的索引中
 	 *
 	 * @param entity the entity to save, must not be {@literal null}
 	 * @param <T> the entity type
@@ -51,7 +51,7 @@ public interface DocumentOperations {
 	<T> T save(T entity);
 
 	/**
-	 * Saves an entity to the index specified in the entity's Document annotation
+	 * 保存单个实体到该实体上标注的文档注解的索引中
 	 *
 	 * @param entity the entity to save, must not be {@literal null}
 	 * @param index the index to save the entity in, must not be {@literal null}
@@ -61,7 +61,7 @@ public interface DocumentOperations {
 	<T> T save(T entity, IndexCoordinates index);
 
 	/**
-	 * saves the given entities to the index retrieved from the entities' Document annotation
+	 * 保存多个实体到该实体上标注的文档注解的索引中
 	 *
 	 * @param entities must not be {@literal null}
 	 * @param <T> the entity type
@@ -70,7 +70,7 @@ public interface DocumentOperations {
 	<T> Iterable<T> save(Iterable<T> entities);
 
 	/**
-	 * saves the given entities to the given index
+	 * 保存多个实体到指定索引中
 	 *
 	 * @param entities must not be {@literal null}
 	 * @param index the index to save the entities in, must not be {@literal null}
@@ -80,7 +80,7 @@ public interface DocumentOperations {
 	<T> Iterable<T> save(Iterable<T> entities, IndexCoordinates index);
 
 	/**
-	 * saves the given entities to the index retrieved from the entities' Document annotation
+	 * 保存多个实体到该实体上标注的文档注解的索引中
 	 *
 	 * @param entities must not be {@literal null}
 	 * @param <T> the entity type
@@ -89,7 +89,7 @@ public interface DocumentOperations {
 	<T> Iterable<T> save(T... entities);
 
 	/**
-	 * Index an object. Will do save or update.
+	 * 索引单个对象，将执行保存或更新
 	 *
 	 * @param query the query defining the object
 	 * @param index the index where the object is stored.
@@ -98,7 +98,7 @@ public interface DocumentOperations {
 	String index(IndexQuery query, IndexCoordinates index);
 
 	/**
-	 * Retrieves an object from the index specified in the entity's Document annotation.
+	 * 从实体标注的文档注解上的索引中查找单个对象
 	 *
 	 * @param id the id of the object
 	 * @param clazz the entity class,
@@ -109,7 +109,7 @@ public interface DocumentOperations {
 	<T> T get(String id, Class<T> clazz);
 
 	/**
-	 * Retrieves an object from the index specified in the entity's Document annotation.
+	 * 从实体标注的文档注解上的索引中查找单个对象
 	 *
 	 * @param id the id of the object
 	 * @param clazz the entity class,
@@ -120,7 +120,7 @@ public interface DocumentOperations {
 	<T> T get(String id, Class<T> clazz, IndexCoordinates index);
 
 	/**
-	 * Execute a multiGet against elasticsearch for the given ids.
+	 * 使用给定 id 集合对 ES 执行 multiGet
 	 *
 	 * @param query the query defining the ids of the objects to get
 	 * @param clazz the type of the object to be returned
@@ -132,7 +132,7 @@ public interface DocumentOperations {
 	<T> List<MultiGetItem<T>> multiGet(Query query, Class<T> clazz);
 
 	/**
-	 * Execute a multiGet against elasticsearch for the given ids.
+	 * 使用给定 id 集合对 ES 执行 multiGet
 	 *
 	 * @param query the query defining the ids of the objects to get
 	 * @param clazz the type of the object to be returned
@@ -144,7 +144,7 @@ public interface DocumentOperations {
 	<T> List<MultiGetItem<T>> multiGet(Query query, Class<T> clazz, IndexCoordinates index);
 
 	/**
-	 * Check if an entity with given {@literal id} exists.
+	 * 判断给定 id 对应的实体是否存在
 	 *
 	 * @param id the {@literal _id} of the document to look for.
 	 * @param clazz the domain type used.
@@ -153,7 +153,7 @@ public interface DocumentOperations {
 	boolean exists(String id, Class<?> clazz);
 
 	/**
-	 * Check if an entity with given {@literal id} exists.
+	 * 判断给定 id 对应的实体是否存在
 	 *
 	 * @param id the {@literal _id} of the document to look for.
 	 * @param index the target index, must not be {@literal null}
@@ -162,7 +162,7 @@ public interface DocumentOperations {
 	boolean exists(String id, IndexCoordinates index);
 
 	/**
-	 * Bulk index all objects. Will do save or update.
+	 * 批量索引多个对象，将执行保存或更新
 	 *
 	 * @param queries the queries to execute in bulk
 	 * @param clazz the entity class
@@ -175,7 +175,7 @@ public interface DocumentOperations {
 	}
 
 	/**
-	 * Bulk index all objects. Will do save or update.
+	 * 批量索引多个对象，将执行保存或更新
 	 *
 	 * @param queries the queries to execute in bulk
 	 * @return the information about of the indexed objects
@@ -186,7 +186,7 @@ public interface DocumentOperations {
 	}
 
 	/**
-	 * Bulk index all objects. Will do save or update.
+	 * 批量索引多个对象，将执行保存或更新
 	 *
 	 * @param queries the queries to execute in bulk
 	 * @param bulkOptions options to be added to the bulk request
@@ -198,7 +198,7 @@ public interface DocumentOperations {
 	List<IndexedObjectInformation> bulkIndex(List<IndexQuery> queries, BulkOptions bulkOptions, Class<?> clazz);
 
 	/**
-	 * Bulk index all objects. Will do save or update.
+	 * 批量索引多个对象，将执行保存或更新
 	 *
 	 * @param queries the queries to execute in bulk
 	 * @param bulkOptions options to be added to the bulk request
@@ -208,7 +208,7 @@ public interface DocumentOperations {
 	List<IndexedObjectInformation> bulkIndex(List<IndexQuery> queries, BulkOptions bulkOptions, IndexCoordinates index);
 
 	/**
-	 * Bulk update all objects. Will do update.
+	 * 批量更新多个对象
 	 *
 	 * @param queries the queries to execute in bulk
 	 * @throws org.springframework.data.elasticsearch.BulkFailureException with information about the failed operation
@@ -218,7 +218,7 @@ public interface DocumentOperations {
 	}
 
 	/**
-	 * Bulk update all objects. Will do update.
+	 * 批量更新多个对象
 	 *
 	 * @param clazz the entity class
 	 * @param queries the queries to execute in bulk
@@ -228,7 +228,7 @@ public interface DocumentOperations {
 	void bulkUpdate(List<UpdateQuery> queries, Class<?> clazz);
 
 	/**
-	 * Bulk update all objects. Will do update.
+	 * 批量更新多个对象
 	 *
 	 * @param queries the queries to execute in bulk
 	 * @param bulkOptions options to be added to the bulk request
@@ -237,7 +237,7 @@ public interface DocumentOperations {
 	void bulkUpdate(List<UpdateQuery> queries, BulkOptions bulkOptions, IndexCoordinates index);
 
 	/**
-	 * Delete the one object with provided id.
+	 * 删除给定id对应的对象
 	 *
 	 * @param id the document to delete
 	 * @param index the index from which to delete
@@ -246,7 +246,7 @@ public interface DocumentOperations {
 	String delete(String id, IndexCoordinates index);
 
 	/**
-	 * Delete the one object with provided id.
+	 * 删除给定id对应的对象
 	 *
 	 * @param id the document ot delete
 	 * @param entityType must not be {@literal null}.
@@ -255,7 +255,7 @@ public interface DocumentOperations {
 	String delete(String id, Class<?> entityType);
 
 	/**
-	 * Deletes the given entity
+	 * 删除给定实体
 	 *
 	 * @param entity the entity to delete
 	 * @return documentId of the document deleted
@@ -263,7 +263,7 @@ public interface DocumentOperations {
 	String delete(Object entity);
 
 	/**
-	 * Deletes the given entity
+	 * 删除给定实体
 	 *
 	 * @param entity the entity to delete
 	 * @param index the index from which to delete
@@ -272,7 +272,7 @@ public interface DocumentOperations {
 	String delete(Object entity, IndexCoordinates index);
 
 	/**
-	 * Delete all records matching the query.
+	 * 删除满足查询的所有纪录
 	 *
 	 * @param query query defining the objects
 	 * @param clazz The entity class, must be annotated with
@@ -283,7 +283,7 @@ public interface DocumentOperations {
 	ByQueryResponse delete(Query query, Class<?> clazz);
 
 	/**
-	 * Delete all records matching the query.
+	 * 删除满足查询的所有纪录
 	 *
 	 * @param query query defining the objects
 	 * @param clazz The entity class, must be annotated with
@@ -294,7 +294,7 @@ public interface DocumentOperations {
 	ByQueryResponse delete(Query query, Class<?> clazz, IndexCoordinates index);
 
 	/**
-	 * Partially update a document by the given entity.
+	 * 使用给定实体更新对应单个文档
 	 *
 	 * @param entity the entity to update partially, must not be {@literal null}.
 	 * @return the update response
@@ -304,7 +304,7 @@ public interface DocumentOperations {
 	<T> UpdateResponse update(T entity);
 
 	/**
-	 * Partially update a document by the given entity.
+	 * 使用给定实体更新对应单个文档
 	 *
 	 * @param entity the entity to update partially, must not be {@literal null}.
 	 * @param index the index to use for the update instead of the one defined by the entity, must not be null
@@ -315,7 +315,7 @@ public interface DocumentOperations {
 	<T> UpdateResponse update(T entity, IndexCoordinates index);
 
 	/**
-	 * Partial update of the document.
+	 * 更新文档的部分内容
 	 *
 	 * @param updateQuery query defining the update
 	 * @param index the index where to update the records
@@ -324,7 +324,7 @@ public interface DocumentOperations {
 	UpdateResponse update(UpdateQuery updateQuery, IndexCoordinates index);
 
 	/**
-	 * Update document(s) by query
+	 * 根据查询更新文档
 	 *
 	 * @param updateQuery query defining the update, must not be {@literal null}
 	 * @param index the index where to update the records , must not be {@literal null}
@@ -334,8 +334,7 @@ public interface DocumentOperations {
 	ByQueryResponse updateByQuery(UpdateQuery updateQuery, IndexCoordinates index);
 
 	/**
-	 * Copies documents from a source to a destination. The source can be any existing index, alias, or data stream. The
-	 * destination must differ from the source. For example, you cannot reindex a data stream into itself. (@see
+	 * 从源（索引、别名、数据流）复制多个文档到目标，源与目标不能相同 (@see
 	 * https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-reindex.html)
 	 *
 	 * @param reindexRequest reindex request parameters
@@ -345,7 +344,8 @@ public interface DocumentOperations {
 	ReindexResponse reindex(ReindexRequest reindexRequest);
 
 	/**
-	 * Submits a reindex task. (@see https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-reindex.html)
+	 * 提交单个重新索引的任务 (@see
+	 * https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-reindex.html)
 	 *
 	 * @param reindexRequest reindex request parameters
 	 * @return the task id

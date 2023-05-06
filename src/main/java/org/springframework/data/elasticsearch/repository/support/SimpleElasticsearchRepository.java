@@ -64,12 +64,27 @@ import org.springframework.util.Assert;
  */
 public class SimpleElasticsearchRepository<T, ID> implements ElasticsearchRepository<T, ID> {
 
+	/**
+	 * Elasticsearch 操作，包含索引、文档、脚本
+	 */
 	protected ElasticsearchOperations operations;
+
+	/**
+	 * 索引操作
+	 */
 	protected IndexOperations indexOperations;
 
+	/**
+	 * 实体类
+	 */
 	protected Class<T> entityClass;
+
+	/**
+	 * 实体信息
+	 */
 	protected ElasticsearchEntityInformation<T, ID> entityInformation;
 
+	// region _initialization
 	public SimpleElasticsearchRepository(ElasticsearchEntityInformation<T, ID> metadata,
 			ElasticsearchOperations operations) {
 		this.operations = operations;
@@ -85,6 +100,11 @@ public class SimpleElasticsearchRepository<T, ID> implements ElasticsearchReposi
 		}
 	}
 
+	// endregion
+
+	/**
+	 * 返回是否创建实体对应的索引和映射
+	 */
 	private boolean shouldCreateIndexAndMapping() {
 
 		final ElasticsearchPersistentEntity<?> entity = operations.getElasticsearchConverter().getMappingContext()
@@ -92,12 +112,18 @@ public class SimpleElasticsearchRepository<T, ID> implements ElasticsearchReposi
 		return entity.isCreateIndexAndMapping();
 	}
 
+	/**
+	 * 返回给定id对应的结果（Optional）
+	 */
 	@Override
 	public Optional<T> findById(ID id) {
 		return Optional.ofNullable(
 				execute(operations -> operations.get(stringIdRepresentation(id), entityClass, getIndexCoordinates())));
 	}
 
+	/**
+	 * 返回所有结果列表（Iterable）
+	 */
 	@Override
 	public Iterable<T> findAll() {
 		int itemCount = (int) this.count();
@@ -109,6 +135,9 @@ public class SimpleElasticsearchRepository<T, ID> implements ElasticsearchReposi
 	}
 
 	@SuppressWarnings("unchecked")
+	/**
+	 * 返回所有结果列表（Page）
+	 */
 	@Override
 	public Page<T> findAll(Pageable pageable) {
 
@@ -123,6 +152,9 @@ public class SimpleElasticsearchRepository<T, ID> implements ElasticsearchReposi
 	}
 
 	@SuppressWarnings("unchecked")
+	/**
+	 * 返回所有排序后的结果列表（Iterable）
+	 */
 	@Override
 	public Iterable<T> findAll(Sort sort) {
 
@@ -142,6 +174,9 @@ public class SimpleElasticsearchRepository<T, ID> implements ElasticsearchReposi
 		return (List<T>) SearchHitSupport.unwrapSearchHits(searchHitList);
 	}
 
+	/**
+	 * 返回给定ID列表对应的结果列表（Iterable）
+	 */
 	@Override
 	public Iterable<T> findAllById(Iterable<ID> ids) {
 
@@ -158,6 +193,9 @@ public class SimpleElasticsearchRepository<T, ID> implements ElasticsearchReposi
 		return (List<T>) SearchHitSupport.unwrapSearchHits(searchHitList);
 	}
 
+	/**
+	 * 获取当前实体的结果数量
+	 */
 	@Override
 	public long count() {
 		Query query = Query.findAll();
@@ -165,6 +203,9 @@ public class SimpleElasticsearchRepository<T, ID> implements ElasticsearchReposi
 		return execute(operations -> operations.count(query, entityClass, getIndexCoordinates()));
 	}
 
+	/**
+	 * 保存单个实体
+	 */
 	@Override
 	public <S extends T> S save(S entity) {
 
@@ -174,6 +215,9 @@ public class SimpleElasticsearchRepository<T, ID> implements ElasticsearchReposi
 		return executeAndRefresh(operations -> operations.save(entity, getIndexCoordinates()));
 	}
 
+	/**
+	 * 保存多个实体
+	 */
 	public <S extends T> List<S> save(List<S> entities) {
 
 		Assert.notNull(entities, "Cannot insert 'null' as a List.");
@@ -181,6 +225,9 @@ public class SimpleElasticsearchRepository<T, ID> implements ElasticsearchReposi
 		return Streamable.of(saveAll(entities)).stream().collect(Collectors.toList());
 	}
 
+	/**
+	 * 保存多个实体
+	 */
 	@Override
 	public <S extends T> Iterable<S> saveAll(Iterable<S> entities) {
 
@@ -192,6 +239,9 @@ public class SimpleElasticsearchRepository<T, ID> implements ElasticsearchReposi
 		return entities;
 	}
 
+	/**
+	 * 返回给定id是否存在对应实体
+	 */
 	@Override
 	public boolean existsById(ID id) {
 		// noinspection ConstantConditions
@@ -199,6 +249,9 @@ public class SimpleElasticsearchRepository<T, ID> implements ElasticsearchReposi
 	}
 
 	@SuppressWarnings("unchecked")
+	/**
+	 * 返回满足查询(search more like this)的结果列表（Page）
+	 */
 	@Override
 	public Page<T> searchSimilar(T entity, @Nullable String[] fields, Pageable pageable) {
 
@@ -218,6 +271,9 @@ public class SimpleElasticsearchRepository<T, ID> implements ElasticsearchReposi
 		return (Page<T>) SearchHitSupport.unwrapSearchHits(searchPage);
 	}
 
+	/**
+	 * 删除给定id对应的文档
+	 */
 	@Override
 	public void deleteById(ID id) {
 
@@ -226,6 +282,9 @@ public class SimpleElasticsearchRepository<T, ID> implements ElasticsearchReposi
 		doDelete(id, getIndexCoordinates());
 	}
 
+	/**
+	 * 删除给定实体对应的文档
+	 */
 	@Override
 	public void delete(T entity) {
 
@@ -234,6 +293,9 @@ public class SimpleElasticsearchRepository<T, ID> implements ElasticsearchReposi
 		doDelete(extractIdFromBean(entity), getIndexCoordinates());
 	}
 
+	/**
+	 * 删除给定id列表对应的文档
+	 */
 	@Override
 	public void deleteAllById(Iterable<? extends ID> ids) {
 
@@ -255,6 +317,9 @@ public class SimpleElasticsearchRepository<T, ID> implements ElasticsearchReposi
 		});
 	}
 
+	/**
+	 * 删除给定实体对应的文档
+	 */
 	@Override
 	public void deleteAll(Iterable<? extends T> entities) {
 
@@ -271,6 +336,12 @@ public class SimpleElasticsearchRepository<T, ID> implements ElasticsearchReposi
 		deleteAllById(ids);
 	}
 
+	/**
+	 * 根据id和索引协调点删除文档
+	 *
+	 * @param id 文档id
+	 * @param indexCoordinates 索引协调点
+	 */
 	private void doDelete(@Nullable ID id, IndexCoordinates indexCoordinates) {
 
 		if (id != null) {
@@ -278,6 +349,9 @@ public class SimpleElasticsearchRepository<T, ID> implements ElasticsearchReposi
 		}
 	}
 
+	/**
+	 * 删除当前实体下所有的文档
+	 */
 	@Override
 	public void deleteAll() {
 		IndexCoordinates indexCoordinates = getIndexCoordinates();
@@ -288,6 +362,9 @@ public class SimpleElasticsearchRepository<T, ID> implements ElasticsearchReposi
 		});
 	}
 
+	/**
+	 * 刷新
+	 */
 	private void doRefresh() {
 		RefreshPolicy refreshPolicy = null;
 
@@ -301,11 +378,18 @@ public class SimpleElasticsearchRepository<T, ID> implements ElasticsearchReposi
 	}
 
 	// region helper functions
+
+	/**
+	 * 从实体中提取id
+	 */
 	@Nullable
 	protected ID extractIdFromBean(T entity) {
 		return entityInformation.getId(entity);
 	}
 
+	/**
+	 * 将id集合转换为字符串表示
+	 */
 	private List<String> stringIdsRepresentation(Iterable<? extends ID> ids) {
 
 		Assert.notNull(ids, "ids can't be null.");
@@ -314,14 +398,23 @@ public class SimpleElasticsearchRepository<T, ID> implements ElasticsearchReposi
 				.collect(Collectors.toList());
 	}
 
+	/**
+	 * 将单个id转换为字符串表示
+	 */
 	protected @Nullable String stringIdRepresentation(@Nullable ID id) {
 		return operations.convertId(id);
 	}
 
+	/**
+	 * 获取当前实体对应的索引协调点
+	 */
 	private IndexCoordinates getIndexCoordinates() {
 		return operations.getIndexCoordinatesFor(entityClass);
 	}
 
+	/**
+	 * 返回给定id对应的查询
+	 */
 	private Query getIdQuery(List<String> stringIds) {
 		return operations.idsQuery(stringIds);
 	}

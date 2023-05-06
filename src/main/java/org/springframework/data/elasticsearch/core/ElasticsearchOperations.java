@@ -40,34 +40,39 @@ import org.springframework.lang.Nullable;
 public interface ElasticsearchOperations extends DocumentOperations, SearchOperations, ScriptOperations {
 
 	/**
-	 * get an {@link IndexOperations} that is bound to the given class
+	 * 返回给定类上绑定的索引操作
 	 *
 	 * @return IndexOperations
 	 */
 	IndexOperations indexOps(Class<?> clazz);
 
 	/**
-	 * get an {@link IndexOperations} that is bound to the given index
+	 * 返回给定索引上绑定的索引操作
 	 *
 	 * @return IndexOperations
 	 */
 	IndexOperations indexOps(IndexCoordinates index);
 
 	/**
-	 * return a {@link ClusterOperations} instance that uses the same client communication setup as this
-	 * ElasticsearchOperations instance.
+	 * 返回与当前对象相同配置的集群操作
 	 *
 	 * @return ClusterOperations implementation
 	 * @since 4.2
 	 */
 	ClusterOperations cluster();
 
+	/**
+	 * 返回 ES 转换器
+	 */
 	ElasticsearchConverter getElasticsearchConverter();
 
+	/**
+	 * 返回给定类上绑定的索引协调节点
+	 */
 	IndexCoordinates getIndexCoordinatesFor(Class<?> clazz);
 
 	/**
-	 * gets the routing for an entity which might be defined by a join-type relation
+	 * 返回给定可能定义为连接类型关系的实体的路由
 	 *
 	 * @param entity the entity
 	 * @return the routing, may be null if not set.
@@ -92,7 +97,7 @@ public interface ElasticsearchOperations extends DocumentOperations, SearchOpera
 	}
 
 	/**
-	 * Converts an idValue to a String representation. The default implementation calls
+	 * 将给定转换为字符串表示，默认实现调用
 	 * {@link ElasticsearchConverter#convertId(Object)}
 	 *
 	 * @param idValue the value to convert
@@ -107,8 +112,7 @@ public interface ElasticsearchOperations extends DocumentOperations, SearchOpera
 
 	// region routing
 	/**
-	 * Returns a copy of this instance with the same configuration, but that uses a different {@link RoutingResolver} to
-	 * obtain routing information.
+	 * 返回与当前示例除 {@link RoutingResolver} 以外一样的示例
 	 *
 	 * @param routingResolver the {@link RoutingResolver} value, must not be {@literal null}.
 	 * @return DocumentOperations instance

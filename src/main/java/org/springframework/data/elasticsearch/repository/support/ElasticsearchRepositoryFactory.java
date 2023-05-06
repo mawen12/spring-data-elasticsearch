@@ -43,7 +43,7 @@ import java.util.Optional;
 import static org.springframework.data.querydsl.QuerydslUtils.QUERY_DSL_PRESENT;
 
 /**
- * Factory to create {@link ElasticsearchRepository}
+ * 创建 {@link ElasticsearchRepository} 的工厂
  *
  * @author Rizwan Idrees
  * @author Mohsin Husen
@@ -69,6 +69,9 @@ public class ElasticsearchRepositoryFactory extends RepositoryFactorySupport {
 				elasticsearchOperations.getElasticsearchConverter().getMappingContext());
 	}
 
+	/**
+	 * 获取给定类的ES实体休息
+	 */
 	@Override
 	public <T, ID> ElasticsearchEntityInformation<T, ID> getEntityInformation(Class<T> domainClass) {
 		return entityInformationCreator.getEntityInformation(domainClass);

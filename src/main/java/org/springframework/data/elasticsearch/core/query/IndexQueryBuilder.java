@@ -29,17 +29,48 @@ import org.springframework.lang.Nullable;
  */
 public class IndexQueryBuilder {
 
+	/**
+	 * 文档 Id
+	 */
 	@Nullable private String id;
+
+	/**
+	 * 文档对象
+	 */
 	@Nullable private Object object;
+
+	/**
+	 * 文档版本
+	 */
 	@Nullable private Long version;
+
+	/**
+	 * 文档源
+	 */
 	@Nullable private String source;
 	@Deprecated
 	@Nullable private String parentId;
 	@Nullable private Long seqNo;
 	@Nullable private Long primaryTerm;
+
+	/**
+	 * 文档路由
+	 */
 	@Nullable private String routing;
+
+	/**
+	 * 索引操作类型
+	 */
 	@Nullable private IndexQuery.OpType opType;
+
+	/**
+	 * 刷新策略
+	 */
 	@Nullable private RefreshPolicy refreshPolicy;
+
+	/**
+	 * 文档归属的索引名称
+	 */
 	@Nullable private String indexName;
 
 	public IndexQueryBuilder() {}

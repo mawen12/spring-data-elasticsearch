@@ -21,6 +21,8 @@ import org.springframework.data.repository.core.EntityInformation;
 import org.springframework.lang.Nullable;
 
 /**
+ * ES 实体信息
+ *
  * @param <T>
  * @param <ID>
  * @author Rizwan Idrees
@@ -32,13 +34,25 @@ import org.springframework.lang.Nullable;
  */
 public interface ElasticsearchEntityInformation<T, ID> extends EntityInformation<T, ID> {
 
+	/**
+	 * 获取 ID 属性
+	 */
 	String getIdAttribute();
 
+	/**
+	 * 获取实体绑定的索引协调点
+	 */
 	IndexCoordinates getIndexCoordinates();
 
+	/**
+	 * 获取给定实体的版本
+	 */
 	@Nullable
 	Long getVersion(T entity);
 
+	/**
+	 * 获取版本类型
+	 */
 	@Nullable
 	Document.VersionType getVersionType();
 }

@@ -34,8 +34,11 @@ import org.springframework.lang.Nullable;
  * @since 4.0
  */
 public interface SearchOperations {
+
+	// region count
+
 	/**
-	 * Return number of elements found by given query.
+	 * 返回满足查询的元素数量
 	 *
 	 * @param query the query to execute
 	 * @param index the index to run the query against
@@ -46,7 +49,7 @@ public interface SearchOperations {
 	}
 
 	/**
-	 * return number of elements found by given query
+	 * 返回满足查询的元素数量
 	 *
 	 * @param query the query to execute
 	 * @param clazz the entity clazz used for property mapping and index name extraction
@@ -55,7 +58,7 @@ public interface SearchOperations {
 	long count(Query query, Class<?> clazz);
 
 	/**
-	 * return number of elements found by given query
+	 * 返回满足查询的元素数量
 	 *
 	 * @param query the query to execute
 	 * @param clazz the entity clazz used for property mapping
@@ -64,8 +67,12 @@ public interface SearchOperations {
 	 */
 	long count(Query query, @Nullable Class<?> clazz, IndexCoordinates index);
 
+	// endregion
+
+	// region searchOne
+
 	/**
-	 * Execute the query against elasticsearch and return the first returned object.
+	 * 返回满足查询返回的第一个结果
 	 *
 	 * @param query the query to execute
 	 * @param clazz the entity clazz used for property mapping and indexname extraction
@@ -78,7 +85,7 @@ public interface SearchOperations {
 	}
 
 	/**
-	 * Execute the query against elasticsearch and return the first returned object.
+	 * 返回满足查询的第一个结果
 	 *
 	 * @param query the query to execute
 	 * @param clazz the entity clazz used for property mapping
@@ -91,8 +98,12 @@ public interface SearchOperations {
 		return content.isEmpty() ? null : content.get(0);
 	}
 
+	// endregion
+
+	// region multiSearch
+
 	/**
-	 * Execute the multi search query against elasticsearch and return result as {@link List} of {@link SearchHits}.
+	 * 返回满足查询（multiGet）的结果列表
 	 *
 	 * @param queries the queries to execute
 	 * @param clazz the entity clazz
@@ -103,7 +114,7 @@ public interface SearchOperations {
 	<T> List<SearchHits<T>> multiSearch(List<? extends Query> queries, Class<T> clazz);
 
 	/**
-	 * Execute the multi search query against elasticsearch and return result as {@link List} of {@link SearchHits}.
+	 * 返回满足查询（multiGet）的结果列表
 	 *
 	 * @param queries the queries to execute
 	 * @param clazz the entity clazz used for property mapping
@@ -114,7 +125,7 @@ public interface SearchOperations {
 	<T> List<SearchHits<T>> multiSearch(List<? extends Query> queries, Class<T> clazz, IndexCoordinates index);
 
 	/**
-	 * Execute the multi search query against elasticsearch and return result as {@link List} of {@link SearchHits}.
+	 * 返回满足查询（multiGet）的结果列表
 	 *
 	 * @param queries the queries to execute
 	 * @param classes the entity classes
@@ -124,7 +135,7 @@ public interface SearchOperations {
 	List<SearchHits<?>> multiSearch(List<? extends Query> queries, List<Class<?>> classes);
 
 	/**
-	 * Execute the multi search query against elasticsearch and return result as {@link List} of {@link SearchHits}.
+	 * 返回满足查询（multiGet）的结果列表
 	 *
 	 * @param queries the queries to execute
 	 * @param classes the entity classes used for property mapping
@@ -134,7 +145,7 @@ public interface SearchOperations {
 	List<SearchHits<?>> multiSearch(List<? extends Query> queries, List<Class<?>> classes, IndexCoordinates index);
 
 	/**
-	 * Execute the multi search query against elasticsearch and return result as {@link List} of {@link SearchHits}.
+	 * 返回满足查询（multiGet）的结果列表
 	 *
 	 * @param queries the queries to execute
 	 * @param classes the entity classes used for property mapping
@@ -145,8 +156,12 @@ public interface SearchOperations {
 	List<SearchHits<?>> multiSearch(List<? extends Query> queries, List<Class<?>> classes,
 			List<IndexCoordinates> indexes);
 
+	// endregion
+
+	// region search
+
 	/**
-	 * Execute the criteria query against elasticsearch and return result as {@link SearchHits}
+	 * 返回满足查询（search）的结果列表
 	 *
 	 * @param <T> element return type
 	 * @param query the query to execute
@@ -156,7 +171,7 @@ public interface SearchOperations {
 	<T> SearchHits<T> search(Query query, Class<T> clazz);
 
 	/**
-	 * Execute the criteria query against elasticsearch and return result as {@link SearchHits}
+	 * 返回满足查询（search）的结果列表
 	 *
 	 * @param <T> element return type
 	 * @param query the query to execute
@@ -167,7 +182,7 @@ public interface SearchOperations {
 	<T> SearchHits<T> search(Query query, Class<T> clazz, IndexCoordinates index);
 
 	/**
-	 * more like this query to search for documents that are "like" a specific document.
+	 * 返回满足查询（search like）的结果列表
 	 *
 	 * @param <T> element return type
 	 * @param query the query to execute
@@ -177,7 +192,7 @@ public interface SearchOperations {
 	<T> SearchHits<T> search(MoreLikeThisQuery query, Class<T> clazz);
 
 	/**
-	 * more like this query to search for documents that are "like" a specific document.
+	 * 返回满足查询（search like）的结果列表
 	 *
 	 * @param <T> element return type
 	 * @param query the query to execute
@@ -187,8 +202,10 @@ public interface SearchOperations {
 	 */
 	<T> SearchHits<T> search(MoreLikeThisQuery query, Class<T> clazz, IndexCoordinates index);
 
+	// endregion
+
 	/**
-	 * Executes the given {@link Query} against elasticsearch and return result as {@link SearchHitsIterator}.
+	 * 返回满足查询（search）的结果列表（Stream）
 	 *
 	 * @param <T> element return type
 	 * @param query the query to execute
@@ -200,7 +217,7 @@ public interface SearchOperations {
 	<T> SearchHitsIterator<T> searchForStream(Query query, Class<T> clazz);
 
 	/**
-	 * Executes the given {@link Query} against elasticsearch and return result as {@link SearchHitsIterator}.
+	 * 返回满足查询（search）的结果列表（Stream）
 	 *
 	 * @param <T> element return type
 	 * @param query the query to execute
@@ -213,8 +230,7 @@ public interface SearchOperations {
 	<T> SearchHitsIterator<T> searchForStream(Query query, Class<T> clazz, IndexCoordinates index);
 
 	/**
-	 * Creates a {@link Query} to get all documents. Must be implemented by the concrete implementations to provide an
-	 * appropriate query using the respective client.
+	 * 查询所有文档，需要由具体的客户端进行实现
 	 *
 	 * @return a query to find all documents
 	 * @since 4.3
@@ -222,8 +238,7 @@ public interface SearchOperations {
 	Query matchAllQuery();
 
 	/**
-	 * Creates a {@link Query} to find get all documents with given ids. Must be implemented by the concrete
-	 * implementations to provide an appropriate query using the respective client.
+	 * 返回满足 ID 列表的结果，需要由具体的客户端进行实现
 	 *
 	 * @param ids the list of ids must not be {@literal null}
 	 * @return query returning the documents with the given ids
@@ -232,7 +247,7 @@ public interface SearchOperations {
 	Query idsQuery(List<String> ids);
 
 	/**
-	 * Opens a point in time (pit) in Elasticsearch.
+	 * 打开 point in time
 	 *
 	 * @param index the index name(s) to use
 	 * @param keepAlive the duration the pit shoult be kept alive
@@ -244,7 +259,7 @@ public interface SearchOperations {
 	}
 
 	/**
-	 * Opens a point in time (pit) in Elasticsearch.
+	 * 打开 point in time
 	 *
 	 * @param index the index name(s) to use
 	 * @param keepAlive the duration the pit shoult be kept alive
@@ -255,7 +270,7 @@ public interface SearchOperations {
 	String openPointInTime(IndexCoordinates index, Duration keepAlive, Boolean ignoreUnavailable);
 
 	/**
-	 * Closes a point in time
+	 * 关闭 point in time
 	 *
 	 * @param pit the pit identifier as returned by {@link #openPointInTime(IndexCoordinates, Duration, Boolean)}
 	 * @return {@literal true} on success

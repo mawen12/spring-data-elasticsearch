@@ -38,16 +38,16 @@ import org.springframework.lang.Nullable;
  */
 public interface IndexOperations {
 
-	// region index management
+	// region 索引管理
 	/**
-	 * Create an index.
+	 * 创建单个索引
 	 *
 	 * @return {@literal true} if the index was created
 	 */
 	boolean create();
 
 	/**
-	 * Create an index for given settings.
+	 * 使用给定配置创建单个索引
 	 *
 	 * @param settings the index settings
 	 * @return {@literal true} if the index was created
@@ -55,7 +55,7 @@ public interface IndexOperations {
 	boolean create(Map<String, Object> settings);
 
 	/**
-	 * Create an index for given settings and mapping.
+	 * 使用给定配置和索引 Mapping 来创建单个索引
 	 *
 	 * @param settings the index settings
 	 * @param mapping the index mapping
@@ -65,7 +65,7 @@ public interface IndexOperations {
 	boolean create(Map<String, Object> settings, Document mapping);
 
 	/**
-	 * Create an index with the settings and mapping defined for the entity this IndexOperations is bound to.
+	 * 使用当前对象绑定到实体上的配置和 Mapping 来创建单个索引
 	 *
 	 * @return {@literal true} if the index was created
 	 * @since 4.2
@@ -73,35 +73,35 @@ public interface IndexOperations {
 	boolean createWithMapping();
 
 	/**
-	 * Deletes the index this {@link IndexOperations} is bound to
+	 * 删除当前对象绑定的单个索引
 	 *
 	 * @return {@literal true} if the index was deleted
 	 */
 	boolean delete();
 
 	/**
-	 * Checks if the index this IndexOperations is bound to exists
+	 * 校验当前对象绑定的索引是否存在
 	 *
 	 * @return {@literal true} if the index exists
 	 */
 	boolean exists();
 
 	/**
-	 * Refresh the index(es) this IndexOperations is bound to
+	 * 刷新当前对象绑定的一个或多个索引
 	 */
 	void refresh();
 	// endregion
 
-	// region mapping
+	// region 映射
 	/**
-	 * Creates the index mapping for the entity this IndexOperations is bound to.
+	 * 使用当前对象绑定到实体上的配置来创建索引 Mapping
 	 *
 	 * @return mapping object
 	 */
 	Document createMapping();
 
 	/**
-	 * Creates the index mapping for the given class
+	 * 使用给定类创建索引 Mapping
 	 *
 	 * @param clazz the clazz to create a mapping for
 	 * @return mapping object
@@ -109,7 +109,7 @@ public interface IndexOperations {
 	Document createMapping(Class<?> clazz);
 
 	/**
-	 * Writes the mapping to the index for the class this IndexOperations is bound to.
+	 * 使用当前对象绑定的类上的配置，添加索引 Mapping
 	 *
 	 * @return {@literal true} if the mapping could be stored
 	 * @since 4.1
@@ -119,7 +119,7 @@ public interface IndexOperations {
 	}
 
 	/**
-	 * writes a mapping to the index
+	 * 添加单个 Mapping 到索引上
 	 *
 	 * @param mapping the Document with the mapping definitions
 	 * @return {@literal true} if the mapping could be stored
@@ -127,7 +127,7 @@ public interface IndexOperations {
 	boolean putMapping(Document mapping);
 
 	/**
-	 * Creates the index mapping for the given class and writes it to the index.
+	 * 使用给定类上的配置创建索引 Mapping，并添加到索引上
 	 *
 	 * @param clazz the clazz to create a mapping for
 	 * @return {@literal true} if the mapping could be stored
@@ -138,7 +138,7 @@ public interface IndexOperations {
 	}
 
 	/**
-	 * Get mapping for an index defined by a class.
+	 * 获取类上定义索引的 Mapping
 	 *
 	 * @return the mapping
 	 */
@@ -148,7 +148,7 @@ public interface IndexOperations {
 
 	// region settings
 	/**
-	 * Creates the index settings for the entity this IndexOperations is bound to.
+	 * 使用当前对象绑定的实体的配置创建索引的配置
 	 *
 	 * @return a settings document.
 	 * @since 4.1
@@ -156,7 +156,7 @@ public interface IndexOperations {
 	Settings createSettings();
 
 	/**
-	 * Creates the index settings from the annotations on the given class
+	 * 使用指定类上的注解创建索引的配置
 	 *
 	 * @param clazz the class to create the index settings from
 	 * @return a settings document.
@@ -165,14 +165,14 @@ public interface IndexOperations {
 	Settings createSettings(Class<?> clazz);
 
 	/**
-	 * Get the index settings.
+	 * 获取索引的配置
 	 *
 	 * @return the settings
 	 */
 	Settings getSettings();
 
 	/**
-	 * Get the index settings.
+	 * 获取索引的配置
 	 *
 	 * @param includeDefaults whether or not to include all the default settings
 	 * @return the settings
@@ -182,7 +182,7 @@ public interface IndexOperations {
 
 	// region aliases
 	/**
-	 * Executes the given {@link AliasActions}.
+	 * 执行给定的 {@link AliasActions}
 	 *
 	 * @param aliasActions the actions to execute
 	 * @return if the operation is acknowledged by Elasticsearch
@@ -191,7 +191,7 @@ public interface IndexOperations {
 	boolean alias(AliasActions aliasActions);
 
 	/**
-	 * gets information about aliases
+	 * 获取给定别名的信息
 	 *
 	 * @param aliasNames alias names, must not be {@literal null}
 	 * @return a {@link Map} from index names to {@link AliasData} for that index
@@ -200,7 +200,7 @@ public interface IndexOperations {
 	Map<String, Set<AliasData>> getAliases(String... aliasNames);
 
 	/**
-	 * gets information about aliases
+	 * 获取给定别名的信息
 	 *
 	 * @param indexNames index names, must not be {@literal null}
 	 * @return a {@link Map} from index names to {@link AliasData} for that index
@@ -223,7 +223,7 @@ public interface IndexOperations {
 	boolean putTemplate(PutTemplateRequest putTemplateRequest);
 
 	/**
-	 * Creates an index template
+	 * 创建一个索引模板
 	 *
 	 * @param putIndexTemplateRequest template request parameters
 	 * @return {@literal true} if successful
@@ -232,7 +232,7 @@ public interface IndexOperations {
 	boolean putIndexTemplate(PutIndexTemplateRequest putIndexTemplateRequest);
 
 	/**
-	 * Writes a component index template that can be used in a composable index template.
+	 * 向可组合的索引模板中添加单个组件索引模板
 	 *
 	 * @param putComponentTemplateRequest index template request parameters
 	 * @return {@literal true} if successful
@@ -241,7 +241,7 @@ public interface IndexOperations {
 	boolean putComponentTemplate(PutComponentTemplateRequest putComponentTemplateRequest);
 
 	/**
-	 * Checks wether a component index template exists.
+	 * 校验单个组件索引模板是否存在
 	 *
 	 * @param existsComponentTemplateRequest the parameters for the request
 	 * @return {@literal true} if the componentTemplate exists.
@@ -250,7 +250,7 @@ public interface IndexOperations {
 	boolean existsComponentTemplate(ExistsComponentTemplateRequest existsComponentTemplateRequest);
 
 	/**
-	 * Get a component template.
+	 * 获取组件索引模板
 	 *
 	 * @param getComponentTemplateRequest parameters for the request, may contain wildcard names
 	 * @return the found {@link TemplateResponse}s, may be empty
@@ -259,7 +259,7 @@ public interface IndexOperations {
 	List<TemplateResponse> getComponentTemplate(GetComponentTemplateRequest getComponentTemplateRequest);
 
 	/**
-	 * Deletes the given component index template
+	 * 删除给定的组件索引模板
 	 *
 	 * @param deleteComponentTemplateRequest request parameters
 	 * @return {@literal true} if successful.
@@ -318,7 +318,7 @@ public interface IndexOperations {
 	boolean existsTemplate(ExistsTemplateRequest existsTemplateRequest);
 
 	/**
-	 * check if an index template exists.
+	 * 校验给定的索引模板是否存在
 	 *
 	 * @param templateName the template name
 	 * @return true if the index template exists
@@ -329,7 +329,7 @@ public interface IndexOperations {
 	}
 
 	/**
-	 * check if an index template exists.
+	 * 校验给定的索引模板是否存在
 	 *
 	 * @param existsTemplateRequest the request parameters
 	 * @return true if the index template exists
@@ -338,7 +338,7 @@ public interface IndexOperations {
 	boolean existsIndexTemplate(ExistsIndexTemplateRequest existsTemplateRequest);
 
 	/**
-	 * Gets an index template.
+	 * 获取单个索引模板
 	 *
 	 * @param templateName template name
 	 * @since 5.1
@@ -348,7 +348,7 @@ public interface IndexOperations {
 	}
 
 	/**
-	 * Gets an index template.
+	 * 获取单个索引模板
 	 *
 	 * @param getIndexTemplateRequest the request parameters
 	 * @since 5.1
@@ -356,7 +356,7 @@ public interface IndexOperations {
 	List<TemplateResponse> getIndexTemplate(GetIndexTemplateRequest getIndexTemplateRequest);
 
 	/**
-	 * Deletes an index template.
+	 * 删除单个索引模板
 	 *
 	 * @param templateName template name
 	 * @return true if successful
@@ -367,7 +367,7 @@ public interface IndexOperations {
 	}
 
 	/**
-	 * Deletes an index template.
+	 * 删除单个索引模板
 	 *
 	 * @param deleteIndexTemplateRequest template request parameters
 	 * @return true if successful
@@ -405,7 +405,7 @@ public interface IndexOperations {
 
 	// region index information
 	/**
-	 * Gets the {@link IndexInformation} for the indices defined by {@link #getIndexCoordinates()}.
+	 * 获取由 {@link #getIndexCoordinates()} 定义的索引的 {@link IndexInformation}
 	 *
 	 * @return a list of {@link IndexInformation}
 	 * @since 4.2
@@ -415,7 +415,7 @@ public interface IndexOperations {
 	}
 
 	/**
-	 * Gets the {@link IndexInformation} for the indices defined by #index.
+	 * 获取由 #index 定义的索引的 {@link IndexInformation}
 	 *
 	 * @param index defines the index names to get the information for
 	 * @return a list of {@link IndexInformation}
@@ -426,8 +426,8 @@ public interface IndexOperations {
 
 	// region helper functions
 	/**
-	 * get the current {@link IndexCoordinates}. These may change over time when the entity class has a SpEL constructed
-	 * index name. When this IndexOperations is not bound to a class, the bound IndexCoordinates are returned.
+	 * 获取当前的 {@link IndexCoordinates}，如果实体上使用 SpEL 表达式定义索引名称，数据可能会随时改变。
+	 * 如果当前对象未绑定实体，会返回当前对象本身的索引协调点
 	 *
 	 * @return IndexCoordinates
 	 * @since 4.1

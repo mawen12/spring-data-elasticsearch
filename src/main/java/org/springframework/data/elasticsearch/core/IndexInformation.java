@@ -24,7 +24,7 @@ import org.springframework.data.elasticsearch.core.index.Settings;
 import org.springframework.lang.Nullable;
 
 /**
- * Immutable object that holds information(name, settings, mappings, aliases) about an Index
+ * 保存索引信息（名称、设置、映射、别名）的不可变对象
  *
  * @author George Popides
  * @author Peter-Josef Meisch
@@ -36,6 +36,7 @@ public class IndexInformation {
 	@Nullable private final Document mapping;
 	@Nullable private final List<AliasData> aliases;
 
+	// region _initialization
 	public static IndexInformation of(String name, @Nullable Settings settings, @Nullable Document mapping,
 			@Nullable List<AliasData> aliases) {
 		return new IndexInformation(name, settings, mapping, aliases);
@@ -48,6 +49,7 @@ public class IndexInformation {
 		this.mapping = mapping;
 		this.aliases = aliases;
 	}
+	// endregion
 
 	public String getName() {
 		return name;

@@ -23,6 +23,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.lang.Nullable;
 
 /**
+ * ES 仓库基础接口
+ *
  * @param <T>
  * @param <ID>
  * @author Rizwan Idrees
@@ -35,7 +37,7 @@ import org.springframework.lang.Nullable;
 public interface ElasticsearchRepository<T, ID> extends PagingAndSortingRepository<T, ID>, CrudRepository<T, ID> {
 
 	/**
-	 * Search for similar entities using a morelikethis query
+	 * 返回满足查询(search more like this)的结果列表（Page）
 	 *
 	 * @param entity the entity for which similar documents should be searched, must not be {@literal null}
 	 * @param fields
